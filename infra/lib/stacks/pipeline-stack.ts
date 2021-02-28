@@ -40,7 +40,7 @@ export class PipelineStack extends cdk.Stack {
         },
       }),
       environment: {
-        buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
+        buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
       },
     });
     const lambdaBuild = new codebuild.PipelineProject(this, 'LambdaBuild', {
@@ -68,7 +68,7 @@ export class PipelineStack extends cdk.Stack {
         },
       }),
       environment: {
-        buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
+        buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
       },
     });
 
@@ -112,8 +112,8 @@ export class PipelineStack extends cdk.Stack {
           actions: [
             new codepipeline_actions.CloudFormationCreateUpdateStackAction({
               actionName: 'Lambda_CFN_Deploy',
-              templatePath: cdkBuildOutput.atPath('LambdaStack.template.json'),
-              stackName: 'LambdaDeploymentStack',
+              templatePath: cdkBuildOutput.atPath('LambdaPipelineDemoLambdaStack.template.json'),
+              stackName: 'LambdaPipelineDemoLambdaStack',
               adminPermissions: true,
               parameterOverrides: {
                 ...props.lambdaCode.assign(lambdaBuildOutput.s3Location),
