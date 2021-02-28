@@ -20,7 +20,9 @@ export class PipelineStack extends cdk.Stack {
           install: {
             commands: [
               'cd infra',
+              'npm i -g typescript npm',
               'npm install',
+              'ls -al',
             ]
           },
           build: {
@@ -31,14 +33,14 @@ export class PipelineStack extends cdk.Stack {
           },
         },
         artifacts: {
-          'base-directory': 'dist',
+          'base-directory': 'infra/dist',
           files: [
             'LambdaStack.template.json',
           ],
         },
       }),
       environment: {
-        buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
+        buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
       },
     });
     const lambdaBuild = new codebuild.PipelineProject(this, 'LambdaBuild', {
@@ -48,7 +50,9 @@ export class PipelineStack extends cdk.Stack {
           install: {
             commands: [
               'cd infra',
+              'npm i -g typescript npm',
               'npm install',
+              'ls -al',
             ],
           },
           build: {
@@ -64,7 +68,7 @@ export class PipelineStack extends cdk.Stack {
         },
       }),
       environment: {
-        buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
+        buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
       },
     });
 
