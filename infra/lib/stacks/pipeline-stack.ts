@@ -45,7 +45,7 @@ export class PipelineStack extends cdk.Stack {
         phases: {
           install: {
             commands: [
-              'cd functions',
+              'cd infra',
               'npm install',
             ],
           },
@@ -54,7 +54,7 @@ export class PipelineStack extends cdk.Stack {
           },
         },
         artifacts: {
-          'base-directory': 'functions',
+          'base-directory': 'infra/lib/functions',
           files: [
             'greet.js',
             'node_modules/**/*',
