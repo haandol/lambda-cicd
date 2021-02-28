@@ -1,5 +1,4 @@
 import * as codebuild from '@aws-cdk/aws-codebuild'
-import * as codecommit from '@aws-cdk/aws-codecommit'
 import * as codepipeline from '@aws-cdk/aws-codepipeline'
 import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions'
 import * as lambda from '@aws-cdk/aws-lambda'
@@ -48,7 +47,7 @@ export class PipelineStack extends cdk.Stack {
         phases: {
           install: {
             commands: [
-              'cd infra/lib/functions',
+              'cd infra',
               'npm install',
             ],
           },
@@ -78,7 +77,7 @@ export class PipelineStack extends cdk.Stack {
           stageName: 'Source',
           actions: [
             new codepipeline_actions.GitHubSourceAction({
-              actionName: 'CodeCommit_Source',
+              actionName: 'GithubSource',
               oauthToken: cdk.SecretValue.secretsManager('github-token'),
               owner: 'haandol',
               repo: 'lambda-cicd-tutorial',
