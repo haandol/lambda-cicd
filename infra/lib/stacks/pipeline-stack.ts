@@ -19,7 +19,10 @@ export class PipelineStack extends cdk.Stack {
         version: '0.2',
         phases: {
           install: {
-            commands: 'npm install',
+            commands: [
+              'cd infra',
+              'npm install',
+            ]
           },
           build: {
             commands: [
@@ -45,7 +48,7 @@ export class PipelineStack extends cdk.Stack {
         phases: {
           install: {
             commands: [
-              'cd infra',
+              'cd infra/lib/functions',
               'npm install',
             ],
           },
