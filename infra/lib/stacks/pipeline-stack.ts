@@ -76,7 +76,7 @@ export class PipelineStack extends cdk.Stack {
           actions: [
             new codepipeline_actions.GitHubSourceAction({
               actionName: 'CodeCommit_Source',
-              oauthToken: cdk.SecretValue.ssmSecure('github-token', '3'),
+              oauthToken: cdk.SecretValue.secretsManager('github-token'),
               owner: 'haandol',
               repo: 'lambda-cicd-tutorial',
               branch: 'main',
