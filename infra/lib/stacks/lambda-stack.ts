@@ -14,6 +14,9 @@ export class LambdaStack extends cdk.Stack {
       code: this.lambdaCode,
       handler: 'greet.handler',
       runtime: lambda.Runtime.NODEJS_14_X,
+      currentVersionOptions: {
+        removalPolicy: cdk.RemovalPolicy.RETAIN,
+      },
     })
 
     const alias = new lambda.Alias(this, 'GreetAlias', {
