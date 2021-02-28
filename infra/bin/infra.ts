@@ -8,7 +8,7 @@ import { App } from '../lib/interfaces/config'
 const app = new cdk.App()
 
 const lambdaStack = new LambdaStack(app, `${App.Context.ns}LambdaStack`)
-new PipelineStack(app, `${App.Context.ns}PipelineDeployingLambdaStack`, {
+new PipelineStack(app, `${App.Context.ns}PipelineStack`, {
   lambdaCode: lambdaStack.lambdaCode,
   repoName: 'lambda-cicd-tutorial',
 })

@@ -14,7 +14,6 @@ export class PipelineStack extends cdk.Stack {
   constructor(app: cdk.App, id: string, props: PipelineStackProps) {
     super(app, id, props)
 
-    const code = codecommit.Repository.fromRepositoryName(this, 'ImportedRepo', props.repoName)
     const cdkBuild = new codebuild.PipelineProject(this, 'CdkBuild', {
       buildSpec: codebuild.BuildSpec.fromObject({
         version: '0.2',
@@ -75,9 +74,12 @@ export class PipelineStack extends cdk.Stack {
         {
           stageName: 'Source',
           actions: [
-            new codepipeline_actions.CodeCommitSourceAction({
+            new codepipeline_actions.GitHubSourceAction({
               actionName: 'CodeCommit_Source',
-              repository: code,
+              oauthToken: cdk.SecretValue.secretsManager('github-token'),
+              owner: 'haandol',
+              repo: 'lambda-cicd-tutorial',
+              branch: 'main',
               output: sourceOutput,
             }),
           ],
