@@ -40,7 +40,7 @@ export class PipelineStack extends cdk.Stack {
         artifacts: {
           'base-directory': 'infra/dist',
           files: [
-            'LambdaPipelineDemoLambdaStack.template.json',
+            `${App.Context.ns}LambdaStack.template.json`,
           ],
         },
       }),
