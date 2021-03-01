@@ -17,6 +17,7 @@ export class LambdaStack extends cdk.Stack {
       currentVersionOptions: {
         removalPolicy: cdk.RemovalPolicy.RETAIN,
       },
+      description: `Function generated on: ${new Date().toISOString()}`,
     })
 
     const alias = new lambda.Alias(this, 'GreetAlias', {
@@ -26,7 +27,7 @@ export class LambdaStack extends cdk.Stack {
 
     new codedeploy.LambdaDeploymentGroup(this, 'DeploymentGroup', {
       alias,
-      deploymentConfig: codedeploy.LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES,
+      deploymentConfig: codedeploy.LambdaDeploymentConfig.LINEAR_10PERCENT_EVERY_1MINUTE,
     })
   }
 }
