@@ -1,12 +1,17 @@
+import * as cdk from '@aws-cdk/core'
 import * as codebuild from '@aws-cdk/aws-codebuild'
 import * as codepipeline from '@aws-cdk/aws-codepipeline'
 import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions'
 import * as lambda from '@aws-cdk/aws-lambda'
-import * as cdk from '@aws-cdk/core'
+import { App } from '../interfaces/config'
 
 export interface PipelineStackProps extends cdk.StackProps {
   readonly lambdaCode: lambda.CfnParametersCode
-  readonly repoName: string
+  readonly repo: {
+    name: string
+    owner: string
+    branch: string
+  }
 }
 
 export class PipelineStack extends cdk.Stack {
@@ -83,9 +88,9 @@ export class PipelineStack extends cdk.Stack {
             new codepipeline_actions.GitHubSourceAction({
               actionName: 'GithubSource',
               oauthToken: cdk.SecretValue.secretsManager('github-token'),
-              owner: 'haandol',
-              repo: 'lambda-cicd-tutorial',
-              branch: 'main',
+              owner: props.repo.owner,
+              repo: props.repo.name,
+              branch: props.repo.branch,
               output: sourceOutput,
             }),
           ],
@@ -112,8 +117,8 @@ export class PipelineStack extends cdk.Stack {
           actions: [
             new codepipeline_actions.CloudFormationCreateUpdateStackAction({
               actionName: 'Lambda_CFN_Deploy',
-              templatePath: cdkBuildOutput.atPath('LambdaPipelineDemoLambdaStack.template.json'),
-              stackName: 'LambdaPipelineDemoLambdaStack',
+              templatePath: cdkBuildOutput.atPath(`${App.Context.ns}LambdaStack.template.json`),
+              stackName: `${App.Context.ns}LambdaDeployStack`,
               adminPermissions: true,
               parameterOverrides: {
                 ...props.lambdaCode.assign(lambdaBuildOutput.s3Location),

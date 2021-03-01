@@ -10,7 +10,11 @@ const app = new cdk.App()
 const lambdaStack = new LambdaStack(app, `${App.Context.ns}LambdaStack`)
 new PipelineStack(app, `${App.Context.ns}PipelineStack`, {
   lambdaCode: lambdaStack.lambdaCode,
-  repoName: 'lambda-cicd-tutorial',
+  repo: {
+    owner: 'haandol',
+    name: 'lambda-cicd-tutorial',
+    branch: 'main',
+  },
 })
 
 app.synth()
